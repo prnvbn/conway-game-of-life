@@ -1,6 +1,6 @@
 {
   "name": "conway-game-of-life",
-  "homepage": "https://prnvbn.github.io",
+  "homepage": "https://prnvbn.github.io/conway-game-of-life",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
