@@ -19,46 +19,12 @@ const neighbourOperations = [
 
 function App() {
   const [running, setRunning] = useState(false);
-  const [grid, setGrid] = useState(() => {
-    const grid = [];
-
-    for (let i = 0; i < numRows; i++) {
-      grid.push(new Array(numCols).fill(0));
-    }
-
-    return grid
-  })
-
-
-  function updateCell(i: number, j: number): React.MouseEventHandler<HTMLDivElement> | undefined {
-    return () => {
-      const newGrid = produce(grid, gridCopy => {
-        gridCopy[i][j] = !grid[i][j];
-        return gridCopy;
-      });
-      setGrid(newGrid);
-    };
-  }
-
-  function mapGrid(): React.ReactNode {
-    return grid.map((rows, i) => rows.map((col, j) => {
-      return <div
-        key={`${i}-${j}`}
-        style={{
-          width: 20,
-          height: 20,
-          backgroundColor: grid[i][j] ? '#6ee7b7' : undefined,
-          border: 'solid 1px black'
-        }}
-        onClick={updateCell(i, j)} />;
-    }
-    ));
-  }
-
+  const [grid, setGrid] = useState(generateEmptyGrid())
 
   const runningRef = useRef(running);
   runningRef.current = running;
 
+  const timeStep = 10;
   const runSimulation = useCallback(
     () => {
 
@@ -87,7 +53,6 @@ function App() {
               // RULES 
               // Any live cell with two or three live neighbours lives on to the next generation.
 
-
               // CELL DEATH
               // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
               // Any live cell with more than three live neighbours dies, as if by overpopulation.
@@ -100,15 +65,11 @@ function App() {
               else if (g[i][j] === 0 && numNeighbours === 3) {
                 gridCopy[i][j] = 1;
               }
-
             }
           }
-
-          // return gridCopy;
         });
       })
-
-      setTimeout(runSimulation, 1_000);
+      setTimeout(runSimulation, timeStep);
     }, []
   )
 
@@ -126,6 +87,14 @@ function App() {
         {running ? 'stop' : 'start'}
       </button>
 
+      <button onClick={() => setGrid(generateEmptyGrid())}>
+        clear
+      </button>
+
+      <button onClick={() => setGrid(generateRandomGrid())}>
+        random
+      </button>
+
       <div
         style={{
           display: 'grid',
@@ -138,7 +107,52 @@ function App() {
     </>
   );
 
+  function generateEmptyGrid() {
+    const emptyGrid = [];
+    for (let i = 0; i < numRows; i++) {
+      emptyGrid.push(
+        new Array(numCols).fill(0)
+      );
+    }
 
+    return emptyGrid;
+  }
+
+  function generateRandomGrid() {
+    const emptyGrid = [];
+    for (let i = 0; i < numRows; i++) {
+      emptyGrid.push(
+        Array.from(Array(numCols), () => Math.random() > 0.8 ? 1 : 0)
+      );
+    }
+
+    return emptyGrid;
+  }
+
+  function updateCell(i: number, j: number): React.MouseEventHandler<HTMLDivElement> | undefined {
+    return () => {
+      const newGrid = produce(grid, gridCopy => {
+        gridCopy[i][j] = !grid[i][j];
+        return gridCopy;
+      });
+      setGrid(newGrid);
+    };
+  }
+
+  function mapGrid(): React.ReactNode {
+    return grid.map((rows, i) => rows.map((col, j) => {
+      return <div
+        key={`${i}-${j}`}
+        style={{
+          width: 20,
+          height: 20,
+          backgroundColor: grid[i][j] ? '#6ee7b7' : undefined,
+          border: 'solid 1px black'
+        }}
+        onClick={updateCell(i, j)} />;
+    }
+    ));
+  }
 
 
 }
