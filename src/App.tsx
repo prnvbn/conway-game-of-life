@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
+import produce from "immer";
 
 const numRows = 50
-const numCols = 50
+const numCols = 100
 
 function App() {
   const [grid, setGrid] = useState(() => {
@@ -30,8 +31,15 @@ function App() {
               style={{
                 width: 20,
                 height: 20,
-                backgroundColor: grid[i][j] ? 'red' : undefined,
+                backgroundColor: grid[i][j] ? '#6ee7b7' : undefined,
                 border: 'solid 1px black'
+              }}
+              onClick={() => {
+                const newGrid = produce(grid, gridCopy => {
+                  gridCopy[i][j] = !grid[i][j];
+                  return gridCopy
+                })
+                setGrid(newGrid)
               }}
             />
           }
