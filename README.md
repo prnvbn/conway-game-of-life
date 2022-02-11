@@ -12,3 +12,11 @@ Conway designed these rules to produce interesting results - even self replicati
 
 ### Why?
 I wanted to do something with React and TailwindCSS and get better at frontend dev.  
+
+
+### In Progress
+
+[ ] Custom time step
+[ ] Custom grid size
+[ ] Header
+[ ] Better Styling
