@@ -2,9 +2,8 @@ import React, { useState, useCallback, useRef } from 'react';
 import './App.css';
 import produce from "immer";
 
-const numRows = 50
-const numCols = 100
-
+const numRows = 20
+const numCols = 20
 
 const neighbourOperations = [
   [-1, 0],  //N
@@ -76,34 +75,32 @@ function App() {
 
   return (
     <>
-      <button
-        onClick={() => {
-          setRunning(!running);
-          if (!running) {
-            runningRef.current = true;
-            runSimulation()
-          }
-        }}>
-        {running ? 'stop' : 'start'}
-      </button>
+      <div className='grid grid-cols-3 p-5 justify-items-center'>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => {
+            setRunning(!running);
+            if (!running) {
+              runningRef.current = true;
+              runSimulation()
+            }
+          }}>
+          {running ? 'stop' : 'start'}
+        </button>
 
-      <button onClick={() => setGrid(generateEmptyGrid())}>
-        clear
-      </button>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => setGrid(generateEmptyGrid())}>
+          clear
+        </button>
 
-      <button onClick={() => setGrid(generateRandomGrid())}>
-        random
-      </button>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${numCols}, 20px)`
-        }}>
-        {
-          mapGrid()
-        }
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => setGrid(generateRandomGrid())}>
+          random
+        </button>
       </div>
+
+      <div className="grid grid-cols-map center place-content-center">
+        {mapGrid()}
+      </div>
+
     </>
   );
 
@@ -122,7 +119,7 @@ function App() {
     const emptyGrid = [];
     for (let i = 0; i < numRows; i++) {
       emptyGrid.push(
-        Array.from(Array(numCols), () => Math.random() > 0.8 ? 1 : 0)
+        Array.from(Array(numCols), () => Math.random() > 0.69 ? 1 : 0)
       );
     }
 
@@ -142,12 +139,12 @@ function App() {
   function mapGrid(): React.ReactNode {
     return grid.map((rows, i) => rows.map((col, j) => {
       return <div
+        className='border-solid border-black border'
         key={`${i}-${j}`}
         style={{
           width: 20,
           height: 20,
-          backgroundColor: grid[i][j] ? '#6ee7b7' : undefined,
-          border: 'solid 1px black'
+          backgroundColor: grid[i][j] ? '#6ee7b7' : 'white',
         }}
         onClick={updateCell(i, j)} />;
     }
