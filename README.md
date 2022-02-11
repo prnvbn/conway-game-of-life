@@ -16,7 +16,7 @@ I wanted to do something with React and TailwindCSS and get better at frontend d
 
 ### In Progress
 
-[ ] Custom time step
-[ ] Custom grid size
-[ ] Header
-[ ] Better Styling
+- [ ] Custom time step
+- [ ] Custom grid size
+- [ ] Header
+- [ ] Better Styling
