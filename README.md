@@ -9,3 +9,6 @@ Each time the simulation is updated, every cell in the grid interacts with its e
 4. Any dead cell with three living neighbours comes to life (reproduction).
 
 Conway designed these rules to produce interesting results - even self replicating patterns can be produced. Read more [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+
+### Why?
+I wanted to do something with React and TailwindCSS and get better at frontend dev.  
