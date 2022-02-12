@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useRef } from 'react';
 import './App.css';
 import produce from "immer";
-
-const numRows = 20
-const numCols = 20
+import ReactSlider from "react-slider";
+const numRows = 30
+const numCols = 30
 
 const neighbourOperations = [
   [-1, 0],  //N
@@ -19,11 +19,12 @@ const neighbourOperations = [
 function App() {
   const [running, setRunning] = useState(false);
   const [grid, setGrid] = useState(generateEmptyGrid())
+  const [timeStep, setTimeStep] = useState(10)
 
   const runningRef = useRef(running);
   runningRef.current = running;
+  const timeStepRef = useRef(timeStep)
 
-  const timeStep = 10;
   const runSimulation = useCallback(
     () => {
 
@@ -68,7 +69,7 @@ function App() {
           }
         });
       })
-      setTimeout(runSimulation, timeStep);
+      setTimeout(runSimulation, timeStepRef.current);
     }, []
   )
 
@@ -96,6 +97,18 @@ function App() {
           random
         </button>
       </div>
+      <ReactSlider
+        step={100}
+        min={10}
+        max={2_000}
+        className="w-full h-3 pr-2 my-4 bg-gray-200 rounded-md cursor-grab"
+        thumbClassName="absolute w-5 h-5 cursor-grab bg-indigo-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 -top-2px"
+        value={timeStepRef.current}
+        onChange={(value: any) => {
+          setTimeStep(value)
+          timeStepRef.current = value
+        }}
+      />
 
       <div className="grid grid-cols-map center place-content-center">
         {mapGrid()}

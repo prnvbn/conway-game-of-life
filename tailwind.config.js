@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        map: "repeat(20, 20px)",
+        map: "repeat(30, 20px)",
       },
     },
   },
